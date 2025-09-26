@@ -6,7 +6,16 @@ class Student: #parent class to represent a student
         self.courses = courses if courses else set() #set of courses
 
     def __str__(self): #String representation of student
-            return f"Student ID: {self.id_name[0]}, Name: {self.id_name[1]} Email: {self.email}, Grades: {self.grades}, Courses: {self.courses}" 
+           return (
+        f"Student Information:\n"
+        f"  ID     : {self.id_name[0]}\n"
+        f"  Name   : {self.id_name[1]}\n"
+        f"  Email  : {self.email}\n"
+        f"  Grades : {self.grades}\n"
+        f"  Courses: {self.courses}\n"
+        "-------------------------\n"
+        ""
+    )
     
 class studentRecords(Student): #subclass of student that inherits from Student class
 
@@ -46,6 +55,7 @@ class studentRecords(Student): #subclass of student that inherits from Student c
             return "No students available" #show this message
         return "\n".join(str(student) for student in self.students) #converts each student to string and joins them with newline
     
+
     #enroll a student in a course based on student ID
     def enroll_course(self, student_id, course):
         for student in self.students: # go through student list
@@ -72,6 +82,5 @@ print(records.display_students()) #display all students
 print(records.search_student(1)) #search for student with ID 1 which is Alice
 print(records.enroll_course(1, "Math")) #enroll Alice in Math course
 print(records.update_student(1, "Alice", "alice_new@gmail", {"Math": "A"}, {"Math"})) #update Alice's email, grades and courses
-print(records.display_students()) #display all students
 print(records.delete_student(2)) #delete student with ID 2 which is Bob
 print(records.display_students()) #display all students
