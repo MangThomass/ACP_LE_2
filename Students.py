@@ -1,23 +1,25 @@
-class Student:
-    def __init__(self,student_id,Student_name,email, grades, courses):
-        self.id_name = (student_id, Student_name)
-        self.email = email
-        self.grades = grades if grades else {}
-        self.courses = courses if courses else set()
+class Student: #parent class to represent a student
+    def __init__(self,student_id,Student_name,email, grades, courses): # constructor to initialize student attributes
+        self.id_name = (student_id, Student_name) #tuple of id and name
+        self.email = email # String of email
+        self.grades = grades if grades else {} #dictionary of grades
+        self.courses = courses if courses else set() #set of courses
 
-    def __str__(self):
-            return f"Student ID: {self.id_name[0]}, Name: {self.id_name[1]} Email: {self.email}, Grades: {self.grades}, Courses: {self.courses}"
+    def __str__(self): #String representation of student
+            return f"Student ID: {self.id_name[0]}, Name: {self.id_name[1]} Email: {self.email}, Grades: {self.grades}, Courses: {self.courses}" 
     
-class studentRecords(Student):
+class studentRecords(Student): #subclass of student that inherits from Student class
 
-    def __init__(self):
-        self.students = []
+    def __init__(self): # Initialize studentRecords attributes
+        self.students = [] #creates an empty list to store student instances
 
+    # Add a new student to the records
     def add_student(self, student_id,Student_name, email=None, grades=None, courses=None):
         new_student = Student(student_id,Student_name, email, grades, courses) # Create new student instance
-        self.students.append(new_student) # Add to class list
-        return "student added successfully"
+        self.students.append(new_student) # Add this student to list
+        return "student added successfully" #confirmation message
     
+    #update student details based on student ID
     def update_student(self, student_id,Student_name, email=None, grades=None, courses=None):
         for student in self.students:
             if student.id_name[0] == student_id: # Find student by ID
@@ -27,43 +29,49 @@ class studentRecords(Student):
                     student.grades = grades # Update grades if provided
                 if courses: 
                     student.courses = courses # Update courses if provided
-                return "student updated successfully"
-        return "student not found"
+                return "student updated successfully" #confirmation message
+        return "student not found" # if no matching ID found 
     
+    #delete student based on student ID
     def delete_student(self, student_id):
-        for student in self.students: # Iterate through class list
+        for student in self.students: # go through student list
             if student.id_name[0] == student_id: # Find student by ID
-                self.students.remove(student) # Remove student from class list
-                return "student deleted successfully"
-        return "student not found"
+                self.students.remove(student) # Remove student from the list
+                return "student deleted successfully" #confirmation message
+        return "student not found" # if no matching ID found
     
+    #display all students in the records
     def display_students(self):
-        if not self.students:
-            return "No students available"
-        return "\n".join(str(student) for student in self.students)
+        if not self.students: #if the student list is empty
+            return "No students available" #show this message
+        return "\n".join(str(student) for student in self.students) #converts each student to string and joins them with newline
     
+    #enroll a student in a course based on student ID
     def enroll_course(self, student_id, course):
-        for student in self.students:
-            if student.id_name[0] == student_id:
+        for student in self.students: # go through student list
+            if student.id_name[0] == student_id: # Find student by ID
                 if student.courses is None:
-                    student.courses = []
-                student.courses.add(course)
-                return "course enrolled successfully"
-        return "student not found"
+                    student.courses = [] #if no courses exist, initialize an empty list
+                student.courses.add(course) # Add the course to the student's set of courses
+                return "course enrolled successfully" #confirmation message
+        return "student not found" # if no matching ID found
     
+    #search for a student by ID and return their details
     def search_student(self, student_id):
-        for student in self.students:
-            if student.id_name[0] == student_id:
-                return str(student)
-        return "student not found"
+        for student in self.students: # go through student list
+            if student.id_name[0] == student_id: # Find student by ID
+                return str(student) # Return student details as string
+        return "student not found" # if no matching ID found
     
-records = studentRecords()
-print(records.add_student(1, "Alice", "alice@gmail"))
-print(records.add_student(2, "Bob", "bob@gmail"))
-print(records.display_students())
-print(records.search_student(1))
-print(records.enroll_course(1, "Math"))
-print(records.update_student(1, "Alice", "alice_new@gmail", {"Math": "A"}, {"Math"}))
-print(records.display_students())
-print(records.delete_student(2))
-print(records.display_students())
+
+#--- Example usage ---
+records = studentRecords() # Create an instance of studentRecords
+print(records.add_student(1, "Alice", "alice@gmail")) #add the student "Alice"
+print(records.add_student(2, "Bob", "bob@gmail")) #add the student "Bob"
+print(records.display_students()) #display all students
+print(records.search_student(1)) #search for student with ID 1 which is Alice
+print(records.enroll_course(1, "Math")) #enroll Alice in Math course
+print(records.update_student(1, "Alice", "alice_new@gmail", {"Math": "A"}, {"Math"})) #update Alice's email, grades and courses
+print(records.display_students()) #display all students
+print(records.delete_student(2)) #delete student with ID 2 which is Bob
+print(records.display_students()) #display all students
